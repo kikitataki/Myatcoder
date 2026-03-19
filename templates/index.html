@@ -4,9 +4,17 @@
     <title>AtCoder 記録アプリ</title>
 </head>
 <body>
-    <h1>AtCoder記録アプリ</h1>
-    <a href="/add">追加ボタン</a>
+    <h1>AtCoder 記録アプリ</h1>
+    <a href="/add">新しく追加する</a>
     <hr>
-    <p>ここに記録が一覧で出ます。</p>
+
+    {% for post in posts %}
+    <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
+        <h3>{{ post['title'] }}</h3>
+        <p>{{ post['memo'] }}</p>
+    </div>
+    {% else %}
+    <p>まだ投稿がありません。最初の考察を記録しましょう！</p>
+    {% endfor %}
 </body>
 </html>
