@@ -8,40 +8,42 @@ app = Flask(__name__)
 import sqlite3
 
 def connectdb():
-    # atcoder.db というファイルを作成して接続
+    #atcoder.db というファイルを作成して接続
     conn = sqlite3.connect('atcoder.db')
-    cursor = conn.cursor()
-    # postsという名前の表を作る（すでにあれば何もしない）
+    cursor = conn.cursor() #SQLを実行するためのカーソルを作成
+    #postsという名前の表を作る（すでにあれば何もしない）
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            memo TEXT
+            title TEXT NOT NULL,           -- タイトル（必須）
+            tags TEXT,                     -- タグ（カンマ区切り文字列）
+            memo TEXT,                     -- 考察内容
+            code TEXT                      -- 回答コード（長文）
         )
     ''')
     conn.commit()
     conn.close()
 
-connectdb() # アプリ起動時に実行
+connectdb() #アプリ起動時に実行
 
 
 @app.route('/') #url末尾が/の場所にアクセスするとしたのコードが動く
 def index():
-    # データベースに接続
+    #データベースに接続
     conn = sqlite3.connect('atcoder.db')
-    conn.row_factory = sqlite3.Row  # これを書くと辞書形式（post['title']）で扱える
+    conn.row_factory = sqlite3.Row  #これを書くと辞書形式（post['title']）で扱える
     cursor = conn.cursor()
     
-    # データを取得（新しい順）
+    #データを取得（新しい順）
     cursor.execute('SELECT * FROM posts ORDER BY id DESC')
     posts = cursor.fetchall()  # 全データを取得
     conn.close()
 
-    # 第二引数で HTML に posts という名前でデータを渡す
+    #第二引数で HTML に posts という名前でデータを渡す
     return render_template('index.html', posts=posts)
 
 
-# 追加画面
+#追加画面
 @app.route('/add')
 def add_page():
     return render_template('add.html')
@@ -51,7 +53,7 @@ def add_post():
     title = request.form.get('title')
     memo = request.form.get('memo')
 
-    # データベースに保存
+    #データベースに保存
     conn = sqlite3.connect('atcoder.db')
     cursor = conn.cursor()
     cursor.execute('INSERT INTO posts (title, memo) VALUES (?, ?)', (title, memo))

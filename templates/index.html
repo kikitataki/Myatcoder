@@ -11,7 +11,9 @@
     {% for post in posts %}
     <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
         <h3>{{ post['title'] }}</h3>
+        <p>タグ: {{ post['tags'] }}</p>
         <p>{{ post['memo'] }}</p>
+        <pre><code>{{ post['code'] }}</code></pre>
     </div>
     {% else %}
     <p>まだ投稿がありません。最初の考察を記録しましょう！</p>

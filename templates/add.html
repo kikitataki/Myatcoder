@@ -10,7 +10,12 @@
     <form action="/add_post" method="POST">
     <input type="text" name="title" placeholder="タイトル">
     <br>
-    <textarea name="memo" placeholder="考えたこと"></textarea>
+    <label>タグ（カンマで区切る）:</label>
+    <input type="text" name="tags" placeholder="DP, グラフ, 典型">
+    <br>
+    <textarea name="memo" placeholder="考えたこと" rows="5"></textarea>
+    <br>
+    <textarea name="code" placeholder="回答コード" rows="10"></textarea>
     <br>
     <button type="submit">保存する</button>
     </form>
